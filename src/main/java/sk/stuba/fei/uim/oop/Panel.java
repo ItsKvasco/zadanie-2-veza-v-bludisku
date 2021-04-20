@@ -3,31 +3,30 @@ package sk.stuba.fei.uim.oop;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class Panel{
     private JPanel panel;
     private JButton[] buttons;
 
-    public Panel(){
+    public Panel(int WIDTH,int HEIGHT){
         panel = new JPanel(new GridBagLayout());
         panel.setBackground(Color.DARK_GRAY);
-        panel.setPreferredSize(new Dimension(Frame.WIDTH, (Frame.HEIGHT) / 8));
+        panel.setPreferredSize(new Dimension(WIDTH,HEIGHT/7));
         GridBagConstraints c = new GridBagConstraints();
         addButtons(c);
-    }
-
-    public JPanel getPanel() {
-        return panel;
     }
 
     public JButton[] getButtons() {
         return buttons;
     }
 
+    public JPanel getPanel() {
+        return panel;
+    }
+
     public void addButtons(GridBagConstraints c){
         //Initializing array of buttons
-        JButton[] buttons = new JButton[5];
+        JButton[] buttons = new JButton[6];
         //Top arrow button conf
         buttons[0] = new JButton(new AbstractAction("↑") {
             @Override
@@ -85,5 +84,16 @@ public class Panel{
         c.gridx = 0;
         c.gridy = 0;
         panel.add(buttons[4],c);
+
+        buttons[5] = new JButton(new AbstractAction("START") {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                System.out.println("START");
+            }
+        });
+        buttons[5].setBackground(Color.LIGHT_GRAY);
+        c.gridx = 0;
+        c.gridy = 1;
+        panel.add(buttons[5],c);
     }
 }
