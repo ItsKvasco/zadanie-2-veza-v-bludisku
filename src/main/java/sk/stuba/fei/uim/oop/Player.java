@@ -1,13 +1,14 @@
 package sk.stuba.fei.uim.oop;
 
-import java.util.ArrayList;
-
 public class Player{
     private int x, y;
-    public Player(){
 
+    public Player(int x, int y) {
+        this.x = x;
+        this.y = y;
     }
-    public void move(int x ,int y){
+
+    public void move(int x , int y){
 
     }
 

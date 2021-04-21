@@ -6,27 +6,22 @@ import java.awt.event.ActionEvent;
 
 public class Panel{
     private JPanel panel;
-    private JButton[] buttons;
+    private int width;
+    private int height;
 
-    public Panel(int WIDTH,int HEIGHT){
+    public Panel(int width,int height){
         panel = new JPanel(new GridBagLayout());
         panel.setBackground(Color.DARK_GRAY);
-        panel.setPreferredSize(new Dimension(WIDTH,HEIGHT/7));
-        GridBagConstraints c = new GridBagConstraints();
-        addButtons(c);
-    }
-
-    public JButton[] getButtons() {
-        return buttons;
+        panel.setPreferredSize(new Dimension(width,height/7));
     }
 
     public JPanel getPanel() {
         return panel;
     }
 
-    public void addButtons(GridBagConstraints c){
+    public void addButtons(GridBagConstraints c) {
         //Initializing array of buttons
-        JButton[] buttons = new JButton[6];
+        JButton[] buttons = new JButton[5];
         //Top arrow button conf
         buttons[0] = new JButton(new AbstractAction("↑") {
             @Override
@@ -39,7 +34,7 @@ public class Panel{
         c.weightx = 0.5;
         c.gridx = 2;
         c.gridy = 1;
-        panel.add(buttons[0],c);
+        panel.add(buttons[0], c);
         //Down arrow button conf
         buttons[1] = new JButton(new AbstractAction("↓") {
             @Override
@@ -50,7 +45,7 @@ public class Panel{
         buttons[1].setBackground(Color.LIGHT_GRAY);
         c.gridx = 2;
         c.gridy = 3;
-        panel.add(buttons[1],c);
+        panel.add(buttons[1], c);
         //Right arrow button conf
         buttons[2] = new JButton(new AbstractAction("→") {
             @Override
@@ -61,7 +56,7 @@ public class Panel{
         buttons[2].setBackground(Color.LIGHT_GRAY);
         c.gridx = 3;
         c.gridy = 3;
-        panel.add(buttons[2],c);
+        panel.add(buttons[2], c);
         //Left arrow button conf
         buttons[3] = new JButton(new AbstractAction("←") {
             @Override
@@ -72,7 +67,7 @@ public class Panel{
         buttons[3].setBackground(Color.LIGHT_GRAY);
         c.gridx = 1;
         c.gridy = 3;
-        panel.add(buttons[3],c);
+        panel.add(buttons[3], c);
         //Reset button conf
         buttons[4] = new JButton(new AbstractAction("RESET") {
             @Override
@@ -83,17 +78,6 @@ public class Panel{
         buttons[4].setBackground(Color.LIGHT_GRAY);
         c.gridx = 0;
         c.gridy = 0;
-        panel.add(buttons[4],c);
-
-        buttons[5] = new JButton(new AbstractAction("START") {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                System.out.println("START");
-            }
-        });
-        buttons[5].setBackground(Color.LIGHT_GRAY);
-        c.gridx = 0;
-        c.gridy = 1;
-        panel.add(buttons[5],c);
+        panel.add(buttons[4], c);
     }
 }

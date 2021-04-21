@@ -7,10 +7,16 @@ public class AI {
     private final Cell[][] cellsArray;
     private final Random randomizer = new Random();
     private final JFrame frame;
+    private Player player;
 
-    public AI(Cell[][] cellsArray, JFrame frame) {
+    public AI(Cell[][] cellsArray, JFrame frame, Player player) {
         this.cellsArray = cellsArray;
+        this.player = player;
         this.frame = frame;
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 
     public void DFS(Cell currentCell) {
@@ -63,6 +69,12 @@ public class AI {
             //Recursive call
             DFS(nextCell);
         }
+    }
+    public void makePanel(int width, int height){
+        var panel = new Panel(width, height);
+        GridBagConstraints c = new GridBagConstraints();
+        panel.addButtons(c);
+        frame.add(panel.getPanel(), BorderLayout.SOUTH);
     }
     public void printMaze(int columns, int rows, Cell[][] cellsArray){
         var canvas = new MyCanvas(columns,rows, cellsArray);
