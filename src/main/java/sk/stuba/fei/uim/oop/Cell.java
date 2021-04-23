@@ -1,5 +1,6 @@
 package sk.stuba.fei.uim.oop;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Cell {
     private final int x, y;
@@ -11,7 +12,7 @@ public class Cell {
     private final ArrayList<Cell> neighbors;
 
     public Cell(int x, int y) {
-        this.neighbors = new ArrayList<Cell>();
+        this.neighbors = new ArrayList<>();
         this.x = x;
         this.y = y;
     }
@@ -68,10 +69,19 @@ public class Cell {
         return neighbors;
     }
 
+    public Cell randomUnvisitedNeighbour(){
+        var tmp = getNeighbors();
+        tmp.removeIf(Cell::isVisited);
+        Collections.shuffle(tmp);
+        if(!tmp.isEmpty()){
+            return tmp.get(0);
+        }
+        return null;
+    }
+
     public void setNeighbors(int i, int j, Cell[][] cellsArray) {
         var columns = cellsArray[0].length;
         var rows = cellsArray.length;
-
         if (isCabin(i, j, columns, rows)) {
             if (isCabin(i + 1, j, columns, rows))
                 neighbors.add(cellsArray[i + 1][j]);
@@ -83,17 +93,41 @@ public class Cell {
                 neighbors.add(cellsArray[i][j - 1]);
         }
     }
-
-    public boolean hasUnvisitedNeighbour(Cell currentCell) {
-        for (int i = 0; i < currentCell.neighbors.size(); i++) {
-            if (!currentCell.neighbors.get(i).isVisited()) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     public static boolean isCabin(int i, int j, int columns, int rows) {
         return i >= 0 && i < columns && j >= 0 && j < rows;
+    }
+
+    public void connectCells(Cell currentCell, Cell nextCell){
+        //Getting locations of cells
+        var nextX = nextCell.getX();
+        var nextY = nextCell.getY();
+        var currX = currentCell.getX();
+        var currY = currentCell.getY();
+        //Remove the wall between current cell and the chosen one
+        //Goes only up and down
+        if(currX == nextX){
+            if(currY - nextY < 0){
+                //Remove bottom wall of currCell and top wall of nextCell
+                currentCell.setBottomWall(false);
+                nextCell.setTopWall(false);
+            }else{
+                //Remove top wall of currentCell and bottom wall of nextCell
+                currentCell.setTopWall(false);
+                nextCell.setBottomWall(false);
+            }
+        }
+        //Goes only side to side
+        if(currY == nextY){
+            if(currX - nextX < 0){
+                //Remove right wall currCell and left wall nextCell
+                currentCell.setRightWall(false);
+                nextCell.setLeftWall(false);
+
+            }else {
+                //Remove left currCell wall and right wall of nextCell
+                currentCell.setLeftWall(false);
+                nextCell.setRightWall(false);
+            }
+        }
     }
 }

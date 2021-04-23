@@ -2,30 +2,38 @@ package sk.stuba.fei.uim.oop;
 import javax.swing.*;
 import java.awt.*;
 
-public class Main {
+public class Main{
     public static void main(String[]args){
         new Main();
     }
 
     public Main(){
-        final int width = 1000;
-        final int height = 1000;
+        final int width = 920;
+        final int height = 1100;
         final int rows = 18;
         final int columns = 18;
-        //Making frame instance
-        var frame = new JFrame("Test");
-        //Creating cellsArray instance
+        var title = "Tower in the maze";
+
+        //Creating frame
+        var frame = new JFrame(title);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frame.getContentPane().setBackground(Color.LIGHT_GRAY);
+        frame.getContentPane().setLayout(new BorderLayout());
+        frame.setLocationRelativeTo(null);
+        frame.setSize(width, height);
+        frame.setVisible(true);
+
+        //Creating required instances
         var cellsArray = new Cell[columns][rows];
-        //Creating Player instance
-        var player = new Player(1,1);
-        //Creating ArtificialIntelligence instance
-        AI ai = new AI(cellsArray, frame, player);
-        //using AI methods
-        ai.fillCellArray(cellsArray);
-        ai.DFS(cellsArray[1][1]);
-        ai.makeFrame(width,height,frame);
-            //painting
-        ai.printMaze(columns, rows, cellsArray);
-        ai.makePanel(width,height);
+        var player = new Player(17,16);
+        var panel = new Panel(width, height, player, cellsArray);
+        var board = new Board(columns, rows, player, cellsArray, panel);
+
+        //Adding components to frame
+        frame.add(board, BorderLayout.CENTER);
+        frame.add(panel.getPanel(), BorderLayout.SOUTH);
+
+        //Other
+//        panel.updateScore();
     }
 }
