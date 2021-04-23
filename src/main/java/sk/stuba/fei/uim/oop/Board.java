@@ -130,11 +130,14 @@ public class Board extends Canvas implements KeyListener, MouseListener {
                     cellsArray[i][j].setRightWall(true);
                     cellsArray[i][j].setLeftWall(true);
                     cellsArray[i][j].setNeighbors(i, j, cellsArray);
+                    cellsArray[i][j].removeAvailablePaths();
                 }
             }
             panel.setWinsCounter(panel.getWinsCounter()+1);
             panel.updateScore();
             randomizedDFS(cellsArray[0][0]);
+            fillAvailablePaths(cellsArray);
+            flagClicked = false;
             repaint();
         }
         //Highlighting available path
