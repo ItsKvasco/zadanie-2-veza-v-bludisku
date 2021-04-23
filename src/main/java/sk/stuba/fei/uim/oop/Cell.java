@@ -26,59 +26,45 @@ public class Cell {
     public ArrayList<Cell> getAvailablePaths() {
         return availablePaths;
     }
-
-    public void addAvaiblePath(Cell cell){
+    public void addAvailablePath(Cell cell){
         availablePaths.add(cell);
     }
-
     public boolean isTopWall() {
         return topWall;
     }
-
     public boolean isBottomWall() {
         return bottomWall;
     }
-
     public boolean isLeftWall() {
         return leftWall;
     }
-
     public boolean isRightWall() {
         return rightWall;
     }
-
     public boolean isVisited() {
         return visited;
     }
-
     public void setTopWall(boolean topWall) {
         this.topWall = topWall;
     }
-
     public void setBottomWall(boolean bottomWall) {
         this.bottomWall = bottomWall;
     }
-
     public void setLeftWall(boolean leftWall) {
         this.leftWall = leftWall;
     }
-
     public void setRightWall(boolean rightWall) {
         this.rightWall = rightWall;
     }
-
     public void setVisited(boolean visited) {
         this.visited = visited;
     }
-
     public int getX() {
         return x;
     }
-
     public int getY() {
         return y;
     }
-
     public ArrayList<Cell> getNeighbors() {
         return neighbors;
     }
@@ -108,7 +94,6 @@ public class Cell {
     public static boolean isCabin(int i, int j, int columns, int rows) {
         return i >= 0 && i < columns && j >= 0 && j < rows;
     }
-
     public void connectCells(Cell currentCell, Cell nextCell){
         //Getting locations of cells
         var nextX = nextCell.getX();

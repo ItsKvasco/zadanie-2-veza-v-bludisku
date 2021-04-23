@@ -27,7 +27,6 @@ public class Board extends Canvas implements KeyListener, MouseListener {
         addKeyListener(this);
         addMouseListener(this);
     }
-
     public void setFlagClicked(boolean flagClicked) {
         this.flagClicked = flagClicked;
     }
@@ -38,21 +37,21 @@ public class Board extends Canvas implements KeyListener, MouseListener {
                     int k = 0;
                     while(!cellsArray[i][j+k].isBottomWall()){
                         k++;
-                        cellsArray[i][j].addAvaiblePath(cellsArray[i][j+k]);
+                        cellsArray[i][j].addAvailablePath(cellsArray[i][j+k]);
                     }
                 }
                 if(!cellsArray[i][j].isTopWall()){
                     int k = 0;
                     while(!cellsArray[i][j-k].isTopWall()){
                         k++;
-                        cellsArray[i][j].addAvaiblePath(cellsArray[i][j-k]);
+                        cellsArray[i][j].addAvailablePath(cellsArray[i][j-k]);
                     }
                 }
                 if(!cellsArray[i][j].isLeftWall()){
                     int k = 0;
                     while(!cellsArray[i-k][j].isLeftWall()){
                         k++;
-                        cellsArray[i][j].addAvaiblePath(cellsArray[i-k][j]);
+                        cellsArray[i][j].addAvailablePath(cellsArray[i-k][j]);
 
                     }
                 }
@@ -60,7 +59,7 @@ public class Board extends Canvas implements KeyListener, MouseListener {
                     int k = 0;
                     while(!cellsArray[i+k][j].isRightWall()){
                         k++;
-                        cellsArray[i][j].addAvaiblePath(cellsArray[i+k][j]);
+                        cellsArray[i][j].addAvailablePath(cellsArray[i+k][j]);
                     }
                 }
             }
@@ -94,7 +93,6 @@ public class Board extends Canvas implements KeyListener, MouseListener {
             }
         }
     }
-
     @Override
     public void paint(Graphics g) {
         g.setColor(Color.GRAY);
@@ -153,7 +151,6 @@ public class Board extends Canvas implements KeyListener, MouseListener {
         g.fillRect(player.getX() * 50 + 15, player.getY() * 50 + 15, 40, 40);
 //        flagMoveClick = false;
     }
-
     @Override
     public void keyPressed(KeyEvent keyEvent) {
         int keyCode = keyEvent.getKeyCode();
@@ -185,7 +182,6 @@ public class Board extends Canvas implements KeyListener, MouseListener {
         }
         repaint();
     }
-
     @Override
     public void mouseClicked(MouseEvent mouseEvent) {
         int tmpX = player.getX()*50 + 15;
@@ -214,27 +210,21 @@ public class Board extends Canvas implements KeyListener, MouseListener {
         }
         repaint();
     }
-
     @Override
     public void keyReleased(KeyEvent keyEvent) {
     }
-
     @Override
     public void keyTyped(KeyEvent keyEvent) {
     }
-
     @Override
     public void mousePressed(MouseEvent mouseEvent) {
     }
-
     @Override
     public void mouseReleased(MouseEvent mouseEvent) {
     }
-
     @Override
     public void mouseEntered(MouseEvent mouseEvent) {
     }
-
     @Override
     public void mouseExited(MouseEvent mouseEvent) {
     }

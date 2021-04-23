@@ -12,26 +12,6 @@ public class Panel implements ActionListener{
     GridBagConstraints c;
     private Board board;
 
-    public int getWinsCounter() {
-        return winsCounter;
-    }
-
-    public void setWinsCounter(int winsCounter) {
-        this.winsCounter = winsCounter;
-    }
-
-    public void setBoard(Board board) {
-        this.board = board;
-    }
-
-    public JPanel getPanel() {
-        return panel;
-    }
-
-    public void updateScore(){
-        score.setText("Games won : "+ this.winsCounter);
-    }
-
     public Panel(int width, int height, Player player, Cell[][] cellsArray) {
         panel = new JPanel(new GridBagLayout());
         panel.setBackground(Color.DARK_GRAY);
@@ -138,7 +118,21 @@ public class Panel implements ActionListener{
         c.gridy = 0;
         panel.add(buttons[4], c);
     }
-
+    public int getWinsCounter() {
+        return winsCounter;
+    }
+    public void setWinsCounter(int winsCounter) {
+        this.winsCounter = winsCounter;
+    }
+    public void setBoard(Board board) {
+        this.board = board;
+    }
+    public JPanel getPanel() {
+        return panel;
+    }
+    public void updateScore(){
+        score.setText("Games won : "+ this.winsCounter);
+    }
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
         
