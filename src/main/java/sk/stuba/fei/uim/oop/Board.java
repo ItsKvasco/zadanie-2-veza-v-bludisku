@@ -11,8 +11,8 @@ public class Board extends Canvas implements KeyListener, MouseListener {
     private final Player player;
     private final Panel panel;
     private boolean flagClicked = false,
-                    flagClickedAgain = false,
-                    flagMoveClick = false;
+                    flagClickedAgain = false;
+//                    flagMoveClick = false;
 
     public Board(int columns, int rows, Player player, Cell[][] cellsArray, Panel panel) {
         this.panel = panel;
@@ -97,7 +97,7 @@ public class Board extends Canvas implements KeyListener, MouseListener {
 
     @Override
     public void paint(Graphics g) {
-        g.setColor(Color.BLACK);
+        g.setColor(Color.GRAY);
         g.fillRect(15, 15, 40, 40);
         g.setColor(Color.WHITE);
         g.fillRect(15 + (columns-1) * 50, 15 + (rows - 1) * 50, 40, 40);
@@ -151,7 +151,7 @@ public class Board extends Canvas implements KeyListener, MouseListener {
         //Movement of player
         g.setColor(Color.DARK_GRAY);
         g.fillRect(player.getX() * 50 + 15, player.getY() * 50 + 15, 40, 40);
-        flagMoveClick = false;
+//        flagMoveClick = false;
     }
 
     @Override
