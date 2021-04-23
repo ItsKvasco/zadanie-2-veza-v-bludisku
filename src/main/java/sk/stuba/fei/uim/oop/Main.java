@@ -12,7 +12,7 @@ public class Main{
         final int height = 1100;
         final int rows = 18;
         final int columns = 18;
-        var title = "Tower in the maze";
+        var title = "Rook in a maze";
 
         //Creating frame
         var frame = new JFrame(title);
