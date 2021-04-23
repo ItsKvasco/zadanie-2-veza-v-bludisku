@@ -9,6 +9,7 @@ public class Cell {
     private boolean bottomWall = true;
     private boolean leftWall = true;
     private boolean rightWall = true;
+    private boolean colored = false;
     private final ArrayList<Cell> neighbors;
     private final ArrayList<Cell> availablePaths;
 
@@ -17,6 +18,12 @@ public class Cell {
         this.availablePaths = new ArrayList<>();
         this.x = x;
         this.y = y;
+    }
+    public boolean isColored() {
+        return colored;
+    }
+    public void setColored(boolean colored) {
+        this.colored = colored;
     }
     public void removeAvailablePaths(){
         while(!availablePaths.isEmpty()){

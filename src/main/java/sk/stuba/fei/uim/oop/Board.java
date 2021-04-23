@@ -1,18 +1,14 @@
 package sk.stuba.fei.uim.oop;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 
-public class Board extends Canvas implements KeyListener, MouseListener {
-    private final int columns,rows;
+public class Board extends Canvas implements KeyListener, MouseListener, MouseMotionListener {
+    private final int columns, rows;
     private final Cell[][] cellsArray;
     private final Player player;
     private final Panel panel;
     private boolean flagClicked = false,
-                    flagClickedAgain = false;
-//                    flagMoveClick = false;
+            flagClickedAgain = false;
 
     public Board(int columns, int rows, Player player, Cell[][] cellsArray, Panel panel) {
         this.panel = panel;
@@ -26,45 +22,49 @@ public class Board extends Canvas implements KeyListener, MouseListener {
         this.player = player;
         addKeyListener(this);
         addMouseListener(this);
+        addMouseMotionListener(this);
     }
+
     public void setFlagClicked(boolean flagClicked) {
         this.flagClicked = flagClicked;
     }
-    public void fillAvailablePaths(Cell[][] cellsArray){
-        for(int i = 0; i < columns ; i++ ){
+
+    public void fillAvailablePaths(Cell[][] cellsArray) {
+        for (int i = 0; i < columns; i++) {
             for (int j = 0; j < rows; j++) {
-                if(!cellsArray[i][j].isBottomWall()){
+                if (!cellsArray[i][j].isBottomWall()) {
                     int k = 0;
-                    while(!cellsArray[i][j+k].isBottomWall()){
+                    while (!cellsArray[i][j + k].isBottomWall()) {
                         k++;
-                        cellsArray[i][j].addAvailablePath(cellsArray[i][j+k]);
+                        cellsArray[i][j].addAvailablePath(cellsArray[i][j + k]);
                     }
                 }
-                if(!cellsArray[i][j].isTopWall()){
+                if (!cellsArray[i][j].isTopWall()) {
                     int k = 0;
-                    while(!cellsArray[i][j-k].isTopWall()){
+                    while (!cellsArray[i][j - k].isTopWall()) {
                         k++;
-                        cellsArray[i][j].addAvailablePath(cellsArray[i][j-k]);
+                        cellsArray[i][j].addAvailablePath(cellsArray[i][j - k]);
                     }
                 }
-                if(!cellsArray[i][j].isLeftWall()){
+                if (!cellsArray[i][j].isLeftWall()) {
                     int k = 0;
-                    while(!cellsArray[i-k][j].isLeftWall()){
+                    while (!cellsArray[i - k][j].isLeftWall()) {
                         k++;
-                        cellsArray[i][j].addAvailablePath(cellsArray[i-k][j]);
+                        cellsArray[i][j].addAvailablePath(cellsArray[i - k][j]);
 
                     }
                 }
-                if(!cellsArray[i][j].isRightWall()){
+                if (!cellsArray[i][j].isRightWall()) {
                     int k = 0;
-                    while(!cellsArray[i+k][j].isRightWall()){
+                    while (!cellsArray[i + k][j].isRightWall()) {
                         k++;
-                        cellsArray[i][j].addAvailablePath(cellsArray[i+k][j]);
+                        cellsArray[i][j].addAvailablePath(cellsArray[i + k][j]);
                     }
                 }
             }
         }
     }
+
     public void randomizedDFS(Cell currentCell) {
         currentCell.setVisited(true);
         //next cell ---- random unvisited neighbour
@@ -78,6 +78,7 @@ public class Board extends Canvas implements KeyListener, MouseListener {
             nextCell = currentCell.randomUnvisitedNeighbour();
         }
     }
+
     public void fillCellArray(Cell[][] cellsArray) {
         var columns = cellsArray[0].length;
         var rows = cellsArray.length;
@@ -93,35 +94,37 @@ public class Board extends Canvas implements KeyListener, MouseListener {
             }
         }
     }
+
     @Override
     public void paint(Graphics g) {
-        g.setColor(Color.GRAY);
+        g.setColor(Color.BLACK);
         g.fillRect(15, 15, 40, 40);
         g.setColor(Color.WHITE);
-        g.fillRect(15 + (columns-1) * 50, 15 + (rows - 1) * 50, 40, 40);
+        g.fillRect(15 + (columns - 1) * 50, 15 + (rows - 1) * 50, 40, 40);
         g.setColor(Color.BLACK);
         for (int i = 0; i < columns; i++) {
             for (int j = 0; j < rows; j++) {
-                if(cellsArray[i][j].isTopWall()){
-                    g.drawLine(10 + i * 50,10 + j * 50,60 + i * 50,10 + j * 50);
+                if (cellsArray[i][j].isTopWall()) {
+                    g.drawLine(10 + i * 50, 10 + j * 50, 60 + i * 50, 10 + j * 50);
                 }
-                if(cellsArray[i][j].isBottomWall()){
-                    g.drawLine(10 + i * 50,60 + j * 50,60 + i * 50,60 + j * 50);
+                if (cellsArray[i][j].isBottomWall()) {
+                    g.drawLine(10 + i * 50, 60 + j * 50, 60 + i * 50, 60 + j * 50);
                 }
-                if(cellsArray[i][j].isLeftWall()){
-                    g.drawLine(10 + i * 50,10 + j * 50,10 + i * 50,60 + j * 50);
+                if (cellsArray[i][j].isLeftWall()) {
+                    g.drawLine(10 + i * 50, 10 + j * 50, 10 + i * 50, 60 + j * 50);
                 }
                 if (cellsArray[i][j].isRightWall()) {
-                    g.drawLine(60 + i * 50,10 + j * 50,60 + i * 50,60 + j * 50);
+                    g.drawLine(60 + i * 50, 10 + j * 50, 60 + i * 50, 60 + j * 50);
                 }
             }
         }
+
         //Checking position
-        if(player.getX() == columns-1 && player.getY() == rows-1){
+        if (player.getX() == columns - 1 && player.getY() == rows - 1) {
             player.setX(0);
             player.setY(0);
-            for(int i = 0;i < cellsArray.length; i++){
-                for(int j = 0; j < cellsArray.length; j++){
+            for (int i = 0; i < cellsArray.length; i++) {
+                for (int j = 0; j < cellsArray.length; j++) {
                     cellsArray[i][j].setVisited(false);
                     cellsArray[i][j].setTopWall(true);
                     cellsArray[i][j].setBottomWall(true);
@@ -131,7 +134,7 @@ public class Board extends Canvas implements KeyListener, MouseListener {
                     cellsArray[i][j].removeAvailablePaths();
                 }
             }
-            panel.setWinsCounter(panel.getWinsCounter()+1);
+            panel.setWinsCounter(panel.getWinsCounter() + 1);
             panel.updateScore();
             randomizedDFS(cellsArray[0][0]);
             fillAvailablePaths(cellsArray);
@@ -140,17 +143,27 @@ public class Board extends Canvas implements KeyListener, MouseListener {
         }
         //Highlighting available path
         g.setColor(Color.GRAY);
-        if(this.flagClicked){
+        if (this.flagClicked) {
             var paths = cellsArray[player.getX()][player.getY()].getAvailablePaths();
             for (Cell path : paths) {
                 g.fillRect(path.getX() * 50 + 15, path.getY() * 50 + 15, 40, 40);
             }
         }
+        //hover
+        g.setColor(Color.WHITE);
+        for(int i = 0; i < columns; i++){
+            for(int j = 0; j < rows;j++){
+                if(cellsArray[i][j].isColored()){ ;
+                    g.fillRect(i * 50 + 15, j * 50 + 15, 40, 40);
+                }
+            }
+        }
+
         //Movement of player
         g.setColor(Color.DARK_GRAY);
         g.fillRect(player.getX() * 50 + 15, player.getY() * 50 + 15, 40, 40);
-//        flagMoveClick = false;
     }
+
     @Override
     public void keyPressed(KeyEvent keyEvent) {
         int keyCode = keyEvent.getKeyCode();
@@ -224,9 +237,34 @@ public class Board extends Canvas implements KeyListener, MouseListener {
     }
     @Override
     public void mouseEntered(MouseEvent mouseEvent) {
+
     }
     @Override
     public void mouseExited(MouseEvent mouseEvent) {
+    }
+
+    @Override
+    public void mouseDragged(MouseEvent mouseEvent) {
+
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent mouseEvent) {
+        for(int i = 0; i < columns; i++){
+            for(int j = 0; j < rows;j++){
+                cellsArray[i][j].setColored(false);
+                }
+            }
+        var path = cellsArray[player.getX()][player.getY()].getAvailablePaths();
+        if(flagClicked){
+            for(Cell cell : path){
+                if((mouseEvent.getX() >= cell.getX()*50 + 15 && mouseEvent.getX() <= cell.getX()*50 + 65)
+                    && (mouseEvent.getY() >= cell.getY()*50 + 15 && mouseEvent.getY() <=cell.getY()*50 + 65)){
+                    cellsArray[(mouseEvent.getX()-15)/50][(mouseEvent.getY()-15)/50].setColored(true);
+                }
+            }
+        }
+        repaint();
     }
 }
 
