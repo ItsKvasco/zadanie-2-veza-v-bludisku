@@ -1,9 +1,6 @@
 package sk.stuba.fei.uim.oop;
 
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-
-public class Player implements MouseListener {
+public class Player {
     private int x;
     private int y;
 
@@ -31,30 +28,5 @@ public class Player implements MouseListener {
     public void move(int x, int y){
         this.x = x;
         this.y = y;
-    }
-
-    @Override
-    public void mouseClicked(MouseEvent mouseEvent) {
-        System.out.print("ahoj"+mouseEvent.getX()+" a "+mouseEvent.getY());
-    }
-
-    @Override
-    public void mousePressed(MouseEvent mouseEvent) {
-
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent mouseEvent) {
-
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent useEvent) {
-        System.out.print("ahoj");
-    }
-
-    @Override
-    public void mouseExited(MouseEvent mouseEvent) {
-
     }
 }

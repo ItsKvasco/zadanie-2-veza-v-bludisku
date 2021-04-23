@@ -25,15 +25,12 @@ public class Main{
 
         //Creating required instances
         var cellsArray = new Cell[columns][rows];
-        var player = new Player(17,16);
+        var player = new Player(0,0);
         var panel = new Panel(width, height, player, cellsArray);
         var board = new Board(columns, rows, player, cellsArray, panel);
 
         //Adding components to frame
         frame.add(board, BorderLayout.CENTER);
         frame.add(panel.getPanel(), BorderLayout.SOUTH);
-
-        //Other
-//        panel.updateScore();
     }
 }

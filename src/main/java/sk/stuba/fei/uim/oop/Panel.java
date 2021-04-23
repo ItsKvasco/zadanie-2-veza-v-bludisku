@@ -8,7 +8,7 @@ import java.awt.event.ActionListener;
 public class Panel implements ActionListener{
     private int winsCounter = 0;
     private final JPanel panel;
-    private JLabel score;
+    private final JLabel score;
     GridBagConstraints c;
     private Board board;
 
@@ -122,11 +122,14 @@ public class Panel implements ActionListener{
                         cellsArray[i][j].setRightWall(true);
                         cellsArray[i][j].setLeftWall(true);
                         cellsArray[i][j].setNeighbors(i, j, cellsArray);
+                        cellsArray[i][j].removeAvailablePaths();
                     }
                 }
                 setWinsCounter(0);
                 updateScore();
                 board.randomizedDFS(cellsArray[0][0]);
+                board.fillAvailablePaths(cellsArray);
+                board.setFlagClicked(false);
                 board.repaint();
             }
         });

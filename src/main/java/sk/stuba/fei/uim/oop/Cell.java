@@ -10,11 +10,25 @@ public class Cell {
     private boolean leftWall = true;
     private boolean rightWall = true;
     private final ArrayList<Cell> neighbors;
+    private final ArrayList<Cell> availablePaths;
 
     public Cell(int x, int y) {
         this.neighbors = new ArrayList<>();
+        this.availablePaths = new ArrayList<>();
         this.x = x;
         this.y = y;
+    }
+    public void removeAvailablePaths(){
+        while(!availablePaths.isEmpty()){
+            availablePaths.remove(0);
+        }
+    }
+    public ArrayList<Cell> getAvailablePaths() {
+        return availablePaths;
+    }
+
+    public void addAvaiblePath(Cell cell){
+        availablePaths.add(cell);
     }
 
     public boolean isTopWall() {
@@ -68,7 +82,6 @@ public class Cell {
     public ArrayList<Cell> getNeighbors() {
         return neighbors;
     }
-
     public Cell randomUnvisitedNeighbour(){
         var tmp = getNeighbors();
         tmp.removeIf(Cell::isVisited);
@@ -78,7 +91,6 @@ public class Cell {
         }
         return null;
     }
-
     public void setNeighbors(int i, int j, Cell[][] cellsArray) {
         var columns = cellsArray[0].length;
         var rows = cellsArray.length;

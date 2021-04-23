@@ -2,13 +2,17 @@ package sk.stuba.fei.uim.oop;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
-
-public class Board extends Canvas implements KeyListener{
-    private final int columns, rows;
+public class Board extends Canvas implements KeyListener, MouseListener {
+    private final int columns,rows;
     private final Cell[][] cellsArray;
     private final Player player;
     private final Panel panel;
+    private boolean flagClicked = false,
+                    flagClickedAgain = false,
+                    flagMoveClick = false;
 
     public Board(int columns, int rows, Player player, Cell[][] cellsArray, Panel panel) {
         this.panel = panel;
@@ -18,10 +22,50 @@ public class Board extends Canvas implements KeyListener{
         panel.setBoard(this);
         this.fillCellArray(cellsArray);
         this.randomizedDFS(cellsArray[0][0]);
+        this.fillAvailablePaths(cellsArray);
         this.player = player;
         addKeyListener(this);
+        addMouseListener(this);
     }
 
+    public void setFlagClicked(boolean flagClicked) {
+        this.flagClicked = flagClicked;
+    }
+    public void fillAvailablePaths(Cell[][] cellsArray){
+        for(int i = 0; i < columns ; i++ ){
+            for (int j = 0; j < rows; j++) {
+                if(!cellsArray[i][j].isBottomWall()){
+                    int k = 0;
+                    while(!cellsArray[i][j+k].isBottomWall()){
+                        k++;
+                        cellsArray[i][j].addAvaiblePath(cellsArray[i][j+k]);
+                    }
+                }
+                if(!cellsArray[i][j].isTopWall()){
+                    int k = 0;
+                    while(!cellsArray[i][j-k].isTopWall()){
+                        k++;
+                        cellsArray[i][j].addAvaiblePath(cellsArray[i][j-k]);
+                    }
+                }
+                if(!cellsArray[i][j].isLeftWall()){
+                    int k = 0;
+                    while(!cellsArray[i-k][j].isLeftWall()){
+                        k++;
+                        cellsArray[i][j].addAvaiblePath(cellsArray[i-k][j]);
+
+                    }
+                }
+                if(!cellsArray[i][j].isRightWall()){
+                    int k = 0;
+                    while(!cellsArray[i+k][j].isRightWall()){
+                        k++;
+                        cellsArray[i][j].addAvaiblePath(cellsArray[i+k][j]);
+                    }
+                }
+            }
+        }
+    }
     public void randomizedDFS(Cell currentCell) {
         currentCell.setVisited(true);
         //next cell ---- random unvisited neighbour
@@ -35,7 +79,6 @@ public class Board extends Canvas implements KeyListener{
             nextCell = currentCell.randomUnvisitedNeighbour();
         }
     }
-
     public void fillCellArray(Cell[][] cellsArray) {
         var columns = cellsArray[0].length;
         var rows = cellsArray.length;
@@ -54,9 +97,9 @@ public class Board extends Canvas implements KeyListener{
 
     @Override
     public void paint(Graphics g) {
-        g.setColor(Color.WHITE);
+        g.setColor(Color.BLACK);
         g.fillRect(15, 15, 40, 40);
-        g.setColor(Color.GREEN);
+        g.setColor(Color.WHITE);
         g.fillRect(15 + (columns-1) * 50, 15 + (rows - 1) * 50, 40, 40);
         g.setColor(Color.BLACK);
         for (int i = 0; i < columns; i++) {
@@ -94,10 +137,18 @@ public class Board extends Canvas implements KeyListener{
             randomizedDFS(cellsArray[0][0]);
             repaint();
         }
-
+        //Highlighting available path
+        g.setColor(Color.GRAY);
+        if(this.flagClicked){
+            var paths = cellsArray[player.getX()][player.getY()].getAvailablePaths();
+            for (Cell path : paths) {
+                g.fillRect(path.getX() * 50 + 15, path.getY() * 50 + 15, 40, 40);
+            }
+        }
         //Movement of player
         g.setColor(Color.DARK_GRAY);
         g.fillRect(player.getX() * 50 + 15, player.getY() * 50 + 15, 40, 40);
+        flagMoveClick = false;
     }
 
     @Override
@@ -133,15 +184,57 @@ public class Board extends Canvas implements KeyListener{
     }
 
     @Override
-    public void keyReleased(KeyEvent keyEvent) {
+    public void mouseClicked(MouseEvent mouseEvent) {
+        int tmpX = player.getX()*50 + 15;
+        int tmpXx = player.getX()*50 + 65;
+        int tmpY = player.getY()*50 + 15;
+        int tmpYy = player.getY()*50 + 65;
+        if((mouseEvent.getX() >= tmpX && mouseEvent.getX() <= tmpXx)
+        && (mouseEvent.getY() >= tmpY && mouseEvent.getY() <=tmpYy)){
+            if(!flagClickedAgain && flagClicked){
+                flagClicked = false;
+                flagClickedAgain = true;
+            }else{
+                flagClicked = true;
+                flagClickedAgain = false;
+            }
+        }
+        var path = cellsArray[player.getX()][player.getY()].getAvailablePaths();
+        if(flagClicked){
+            for(Cell cell : path){
+                if((mouseEvent.getX() >= cell.getX()*50 + 15 && mouseEvent.getX() <= cell.getX()*50 + 65)
+                && (mouseEvent.getY() >= cell.getY()*50 + 15 && mouseEvent.getY() <=cell.getY()*50 + 65)){
+                    player.move(cell.getX(), cell.getY());
+                    flagClicked = false;
+                }
+            }
+        }
+        repaint();
+    }
 
+    @Override
+    public void keyReleased(KeyEvent keyEvent) {
     }
 
     @Override
     public void keyTyped(KeyEvent keyEvent) {
-
     }
 
+    @Override
+    public void mousePressed(MouseEvent mouseEvent) {
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent mouseEvent) {
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent mouseEvent) {
+    }
+
+    @Override
+    public void mouseExited(MouseEvent mouseEvent) {
+    }
 }
 
 
